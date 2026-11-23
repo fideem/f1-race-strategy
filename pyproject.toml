@@ -1,17 +1,18 @@
 [project]
 name = "f1-race-strategy"
 version = "0.1.0"
-description = "Add your description here"
+description = "Tyre degradation and pit strategy analysis of the 2025 F1 season using OpenF1 data"
 readme = "README.md"
 authors = [
     { name = "Milena", email = "stepkowskamilena@gmail.com" }
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "fastf1>=3.8.3",
     "matplotlib>=3.11.2",
     "pandas>=2.3.3",
+    "pyarrow>=18.0",
     "requests>=2.34.2",
+    "scikit-learn>=1.6",
 ]
 
 [project.scripts]
@@ -24,4 +25,5 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "ipykernel>=7.4.0",
+    "pytest>=8.3",
 ]
