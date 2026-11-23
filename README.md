@@ -7,11 +7,14 @@ and how does it differ between SOFT, MEDIUM and HARD compounds?
 
 ## Data
 
-[OpenF1 API](https://openf1.org) – every race of the 2025 season: `laps`, `stints`, `pit`, `weather`, `race_control`.
-One row = one lap of one driver (`data/processed/laps_2025.parquet`, built by `src/f1_race_strategy/season.py`).
+[OpenF1 API](https://openf1.org) – all 24 races of the 2025 season: `laps`, `stints`, `pit`, `weather`, `race_control`.
+One row = one lap of one driver (`data/processed/laps_2025.parquet`, built by `src/f1_race_strategy/season.py`): 26,226 laps before cleaning.
 
 Cleaning: dry compounds only; lap 1, pit-in / pit-out laps and Safety Car laps removed.
-<!-- TODO: ile okrążeń zostało (liczba i %), jakie uproszczenia (np. SC po lap_number) -->
+
+### Known data issues
+
+- **Miami 2025:** the OpenF1 `laps` endpoint returns only ~33 of 57 laps per driver, while stint data is complete (e.g. driver 1: MEDIUM laps 1–32, HARD laps 33–57). About 40% of that race is therefore missing; the remaining laps are kept. Found by comparing lap counts per race against ~20 drivers × race distance, then checking raw `laps` and `stints` before the merge.
 
 ## Method
 

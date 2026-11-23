@@ -34,7 +34,7 @@ ALLOWED_ENDPOINTS = {
     "session_result",
 }
 
-_MIN_SECONDS_BETWEEN_CALLS = 0.4
+_MIN_SECONDS_BETWEEN_CALLS = 2.1
 _last_call = 0.0
 
 
@@ -57,14 +57,14 @@ def fetch(endpoint: str, use_cache: bool = True, **params) -> pd.DataFrame:
     if use_cache and path.exists():
         return pd.DataFrame(json.loads(path.read_text()))
 
-    for attempt in range(4):
+    for attempt in range(6):
         wait = _MIN_SECONDS_BETWEEN_CALLS - (time.monotonic() - _last_call)
         if wait > 0:
             time.sleep(wait)
         _last_call = time.monotonic()
         resp = requests.get(f"{BASE_URL}/{endpoint}", params=params, timeout=30)
         if resp.status_code == 429:  # rate limited: back off and retry
-            time.sleep(2 ** attempt)
+            time.sleep(5*2 ** attempt)
             continue
         if resp.status_code == 404:  # OpenF1 returns 404 when nothing matches
             records = []
